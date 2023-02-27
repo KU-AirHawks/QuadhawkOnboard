@@ -5,7 +5,7 @@ FROM ubuntu:20.04 as base
 COPY ./droneFlight /home/airHawk/droneFlight
 COPY ./signalProcessing /home/airHawk/signalProcessing
 COPY ./systemControl /home/airHawk/systemControl
-
+COPY ./PX4-Autopilot /root/PX4-Autopilot
 ENV DEBIAN_FRONTEND=noninteractive
 
 
@@ -20,11 +20,12 @@ RUN apt-get update && \
     gnupg2 \
     wget \
     curl \
+    aptitude \
     && apt-get clean all
 
 # set up PX4 enviornment
 RUN cd &&\
-    git clone https://github.com/PX4/PX4-Autopilot.git --recursive &&\
+    # git clone https://github.com/PX4/PX4-Autopilot.git --recursive &&\
     bash ./PX4-Autopilot/Tools/setup/ubuntu.sh &&\
     cd PX4-Autopilot/ &&\
     make px4_sitl &&\

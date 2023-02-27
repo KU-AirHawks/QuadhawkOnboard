@@ -5,5 +5,11 @@ services:
     image: quadhawkonboard-devcontainer
     # volumes:
     #   - ../..:/workspaces:cached      
+    environment:
+      - DISPLAY
+    network_mode: "host"
+    stdin_open: true
+    tty: true
+    restart: "no"    
     command: sleep infinity
-    
+
