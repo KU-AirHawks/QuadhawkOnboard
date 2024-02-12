@@ -1,6 +1,7 @@
 FROM ubuntu:20.04 as base
 
 ### Stage 1 - add/remove packages ###
+run ls
 
 COPY ./droneFlight /home/airHawk/droneFlight
 COPY ./signalProcessing /home/airHawk/signalProcessing
