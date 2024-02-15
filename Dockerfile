@@ -14,6 +14,7 @@ RUN apt-get update && \
     apt-get install -y \
     bash \
     sudo \
+    python3.8 \
     && \
     ls
 

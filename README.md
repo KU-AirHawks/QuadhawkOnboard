@@ -18,3 +18,8 @@ docker exec -it (cont id) bash
 
 
 when in container shell, use the command "exit" to get back to bare metal shell 
+
+to stop:
+exit
+..
+docker compose down
