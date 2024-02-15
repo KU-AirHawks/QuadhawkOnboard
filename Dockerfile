@@ -15,6 +15,7 @@ RUN apt-get update && \
     bash \
     sudo \
     python \
+    ros-iron-desktop \
     && \
     ls
 
