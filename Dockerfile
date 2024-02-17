@@ -1,23 +1,35 @@
 FROM ubuntu:20.04 as base
 
-### Stage 1 - add/remove packages ###
-RUN ls
 
+# add our code into the contianer
 COPY ./droneFlight /home/airHawk/droneFlight
 COPY ./signalProcessing /home/airHawk/signalProcessing
 COPY ./systemControl /home/airHawk/systemControl
-# - Symlink variant-specific scripts to default location
-# - Upgrade base security packages, then clean packaging leftover
-# - Add S6 for zombie reaping, boot-time coordination, signal transformation/distribution: @see https://github.com/just-containers/s6-overlay#known-issues-and-workarounds
-# - Add goss for local, serverspec-like testing
+
+
+# install our packages
 RUN apt-get update && \
     apt-get install -y \
+    lsb-release \
     bash \
+    git \
     sudo \
-    python \
-    ros-iron-desktop \
-    && \
-    ls
+    python3 \
+    gnupg2 \
+    wget \
+    && apt-get clean all
+
+# set up PX4 enviornment
+RUN cd &&\
+    git clone https://github.com/PX4/PX4-Autopilot.git --recursive &&\
+    bash ./PX4-Autopilot/Tools/setup/ubuntu.sh &&\
+    # echo "ran bash commands" &&\
+    cd PX4-Autopilot/ &&\
+    make px4_sitl &&\
+    cd
+
+
+# 
 
 # Overlay the root filesystem from this repo
 
