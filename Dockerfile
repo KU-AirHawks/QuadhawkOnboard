@@ -2,10 +2,7 @@ FROM ubuntu:20.04 as base
 
 
 # add our code into the contianer
-COPY ./droneFlight /home/airHawk/droneFlight
-COPY ./signalProcessing /home/airHawk/signalProcessing
-COPY ./systemControl /home/airHawk/systemControl
-COPY ./PX4-Autopilot /root/PX4-Autopilot
+COPY ./onboard_ws /home/airHawk/onboard_ws
 ENV DEBIAN_FRONTEND=noninteractive
 
 
@@ -24,12 +21,12 @@ RUN apt-get update && \
     && apt-get clean all
 
 # set up PX4 enviornment
-RUN cd &&\
+RUN ls &&\
     # git clone https://github.com/PX4/PX4-Autopilot.git --recursive &&\
-    bash ./PX4-Autopilot/Tools/setup/ubuntu.sh &&\
-    cd PX4-Autopilot/ &&\
+    bash /home/airHawk/onboard_ws/src/PX4-Autopilot/Tools/setup/ubuntu.sh &&\
+    cd ./home/airHawk/onboard_ws/src/PX4-Autopilot/ &&\
     make px4_sitl &&\
-    cd
+    cd 
     
 # install Ros
 RUN apt update && \
@@ -48,6 +45,11 @@ RUN apt update && \
     python3-argcomplete \
     ros-dev-tools
 
+#run commands that we need but px4 and ros dont need
+RUN apt update && \
+    apt-get install -y \
+    firefox \
+    vim
 
 # Overlay the root filesystem from this repo
 
